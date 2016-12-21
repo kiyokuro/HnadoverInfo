@@ -13,6 +13,9 @@ $dbInfo = new DbInfo();
 if(isset($_GET['air_temp'])) {
       $air_temp = $_GET['air_temp'];
 }
+if(isset($_GET['air_humidity'])) {
+      $air_humidity = $_GET['air_humidity'];
+}
 if(isset($_GET['machine_id'])) {
       $machine_id = $_GET['machine_id'];
 }
@@ -27,7 +30,7 @@ try{
       $result_code = 2;
     }else{
       //クエリ実行
-      $mysqli->query("insert into sensor_datas (created_at, machine_id, air_temp) values ($dateTime, $machine_id, $air_temp);");
+      $mysqli->query("insert into sensor_datas (created_at, machine_id, air_temp, air_humidity) values ($dateTime, $machine_id, $air_temp, $air_humidity);");
       $results = $mysqli->query("select * from sensor_datas where created_at = $dateTime;");
       $result_code = 1;
     }
@@ -47,7 +50,7 @@ function makeResult($results,$result_code){
     $result_list = [];
     foreach ($results as $row) {
       $result_list[] = ['id'=>$row[id],'created_at'=>$row[created_at],
-      'machine_id'=>$row[machine_id],'air_temp'=>$row[air_temp]];
+      'machine_id'=>$row[machine_id],'air_temp'=>$row[air_temp],'air_humidity'=>$row[air_humidity]];
     }
     $result = [
       'result_code' => $result_code,
